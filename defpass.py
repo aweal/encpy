@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
+import subprocess
 from time import sleep
 import gnupg
 import logging
@@ -13,7 +14,7 @@ import getpass
 home_dir = os.path.expanduser('~') + '/'
 gpg_home = home_dir + '.gnupg'
 default_crypt_file = home_dir + '.bac/one.gpg'
-editor = 'gedit '
+editor = 'nano'
 recipient_name = 'aweal' #имя ключа
 
 class CryptoFile():
@@ -122,7 +123,7 @@ class CryptoFile():
         d_file_name = self.decrypt_file(file_name)
         if d_file_name:
             self.lgr.debug('Open decrypted file `%s`', d_file_name)
-            os.system(editor + d_file_name)
+            subprocess.Popen(editor +" " +d_file_name, shell=True).wait()
             if self.encrypt_file(d_file_name):
                 if os.path.exists(d_file_name):
                     try:
